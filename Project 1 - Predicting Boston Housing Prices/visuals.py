@@ -35,7 +35,7 @@ def ModelLearning(X, y):
 
         # Calculate the training and testing scores
         sizes, train_scores, test_scores = learning_curve(regressor, X, y, \
-            cv = cv.get_n_splits(), train_sizes = train_sizes, scoring = 'r2')
+            cv = cv, train_sizes = train_sizes, scoring = 'r2')
         
         # Find the mean and standard deviation for smoothing
         train_std = np.std(train_scores, axis = 1)
@@ -78,7 +78,7 @@ def ModelComplexity(X, y):
 
     # Calculate the training and testing scores
     train_scores, test_scores = validation_curve(DecisionTreeRegressor(), X, y, \
-        param_name = "max_depth", param_range = max_depth, cv = cv.get_n_splits(), scoring = 'r2')
+        param_name = "max_depth", param_range = max_depth, cv = cv, scoring = 'r2')
 
     # Find the mean and standard deviation for smoothing
     train_mean = np.mean(train_scores, axis=1)
