@@ -100,10 +100,11 @@ class LearningAgent(Agent):
         # When learning, check if the 'state' is not in the Q-table
         # If it is not, create a new dictionary for that state
         #   Then, for each action available, set the initial Q-value to 0.0
-        if not (state in list(self.Q.keys())):
-            self.Q[state] = {}
-            for action in list(self.valid_actions):
-                self.Q[state][action] = 0.0
+        if self.learning==True:
+            if not (state in list(self.Q.keys())):
+                self.Q[state] = {}
+                for action in list(self.valid_actions):
+                    self.Q[state][action] = 0.0
         return
 
 
@@ -147,8 +148,9 @@ class LearningAgent(Agent):
         # When learning, implement the value iteration update rule
         #   Use only the learning rate 'alpha' (do not use the discount factor 'gamma')
         
-        # I have only used gamma for testing, in the final runs I have set it to 0 in the initialization to eliminate it.
-        self.Q[state][action] = self.Q[state][action] + self.alpha*(reward +self.gamma*self.get_maxQ(state)-self.Q[state][action])
+        if self.learning==True:
+            self.Q[state][action] = self.Q[state][action] + self.alpha*(reward -self.Q[state][action])
+            #self.Q[state][action] = self.Q[state][action] + self.alpha*(reward +self.gamma*self.get_maxQ(state)-self.Q[state][action])
 
         return
 
@@ -207,7 +209,7 @@ def run():
     # Flags:
     #   tolerance  - epsilon tolerance before beginning testing, default is 0.05 
     #   n_test     - discrete number of testing trials to perform, default is 0
-    sim.run(n_test=50)
+    sim.run(n_test=200)
 
 
 if __name__ == '__main__':
